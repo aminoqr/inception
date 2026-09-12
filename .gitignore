@@ -1,0 +1,8 @@
+# Personal working files — not part of the 42 submission
+CLAUDE.md
+MILESTONES.md
+en.subject.pdf
+
+# Credentials — the subject treats any committed credential as an automatic failure
+secrets/
+srcs/.env
