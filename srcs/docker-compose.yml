@@ -32,7 +32,7 @@ services:
       - inception
     restart: always
     depends_on:
-      - mariadb:
+      mariadb:
           condition: service_healthy
   
   nginx:
