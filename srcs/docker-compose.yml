@@ -13,10 +13,11 @@ services:
       - inception
     restart: always
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$$(cat /run/secrets/db_root_password)\" --silent"]
       interval: 10s
       timeout: 5s
       retries: 5
+
 
   wordpress:
     build: requirements/wordpress
