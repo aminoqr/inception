@@ -18,7 +18,6 @@ services:
       timeout: 5s
       retries: 5
 
-
   wordpress:
     build: requirements/wordpress
     image: wordpress
@@ -34,14 +33,14 @@ services:
     restart: always
     depends_on:
       mariadb:
-          condition: service_healthy
+        condition: service_healthy
   
   nginx:
     build: requirements/nginx
     image: nginx
     container_name: nginx
     volumes:
-     - wordpress_files:/var/www/html
+      - wordpress_files:/var/www/html
     networks:
       - inception
     restart: always
