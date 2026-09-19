@@ -3,7 +3,8 @@ FROM debian:bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-server \
     mariadb-client \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/mysql/*
 
 COPY conf/my.cnf /etc/mysql/mariadb.conf.d/99-custom.cnf
 COPY tools/entrypoint.sh /usr/local/bin/entrypoint.sh
