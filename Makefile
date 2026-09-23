@@ -16,6 +16,7 @@ clean: down
 	docker system prune -af
 
 fclean: clean
+	$(COMPOSE) down -v
 	sudo rm -rf $(DATA_DIR)
 
 re: fclean up
