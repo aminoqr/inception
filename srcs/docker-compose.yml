@@ -20,7 +20,7 @@ services:
 
   wordpress:
     build: requirements/wordpress
-    image: wordpress:1,0
+    image: wordpress:1.0
     container_name: wordpress
     env_file: .env
     secrets:
