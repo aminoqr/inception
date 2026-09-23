@@ -1,7 +1,7 @@
 services:
   mariadb:
     build: requirements/mariadb
-    image: mariadb
+    image: mariadb:1.0
     container_name: mariadb
     env_file: .env
     secrets:
@@ -20,7 +20,7 @@ services:
 
   wordpress:
     build: requirements/wordpress
-    image: wordpress
+    image: wordpress:1,0
     container_name: wordpress
     env_file: .env
     secrets:
@@ -37,7 +37,7 @@ services:
   
   nginx:
     build: requirements/nginx
-    image: nginx
+    image: nginx:1.0
     container_name: nginx
     volumes:
       - wordpress_files:/var/www/html
