@@ -60,6 +60,34 @@ WP_ADMIN_PASSWORD=yourpassword
 WP_USER_PASSWORD=yourpassword
 ```
 
+All of this can be created in one step, from the repository root:
+
+```bash
+cat > srcs/.env <<'EOF'
+DOMAIN_NAME=aasylbye.42.fr
+
+MYSQL_DATABASE=wordpress
+MYSQL_USER=wpuser
+
+WP_TITLE=Inception
+WP_ADMIN_USER=bossman
+WP_ADMIN_EMAIL=aasylbye@example.com
+WP_USER=editor
+WP_USER_EMAIL=editor@example.com
+EOF
+
+mkdir -p secrets
+echo -n "yourdbpassword" > secrets/db_password.txt
+echo -n "yourrootpassword" > secrets/db_root_password.txt
+
+cat > secrets/credentials.txt <<'EOF'
+WP_ADMIN_PASSWORD=yourpassword
+WP_USER_PASSWORD=yourpassword
+EOF
+```
+
+Replace the password placeholders with real values before running `make`.
+
 Point the domain at the machine running the browser by adding a line to
 `/etc/hosts`:
 
@@ -254,34 +282,8 @@ Documentation:
 
 ### Use of AI
 
-I used Claude Code throughout this project.
-
-It read the subject PDF and turned it into a milestone plan (`MILESTONES.md`),
-which broke the work into pieces I could finish and test one at a time instead of
-writing everything and debugging it all at once.
-
-Before writing each file I had it explain what the pieces did: image layers and
-why `apt-get update` and the cache cleanup belong in the same `RUN`, the difference
-between `ENTRYPOINT` exec form and shell form and why it decides what PID 1 is,
-what `fastcgi_pass` does, how php-fpm pools work.
-
-It produced the contents of the Dockerfiles, configs, entrypoint scripts,
-`docker-compose.yml` and `Makefile`. I typed all of them out by hand rather than
-pasting, so I had to read every line. Partway through I asked it to replan the
-project for simplicity, after the first version of the MariaDB entrypoint turned
-out to be more complicated than I could explain.
-
-Debugging was the largest part. I pasted container logs and it worked out what they
-meant. The bugs it helped identify: `/run/mysqld` missing, because containers never
-run the boot process that normally creates it; the pre-seeded `/var/lib/mysql`
-defeating the first-run guard; `service mariadb start` depending on a
-`debian-sys-maint` account that a manual `mariadb-install-db` never creates; the
-`php-fpm` binary installed under a version-suffixed name; php-fpm listening on a
-Unix socket that another container cannot reach; and a Compose healthcheck that
-could not authenticate once the root password was set.
-
-It also caught mistakes by reading rather than running: YAML list syntax errors in
-`docker-compose.yml`, backticks versus quotes in the SQL heredoc, and an entrypoint
-script that had been pasted into itself twice.
-
-I can explain every file in this repository.
+I used AI to break the project into manageable milestones, explain
+concepts I didn't already understand, help debug issues when something
+broke, and review my configuration files before committing. I directed
+each of these tasks myself and made the actual decisions and fixes along
+the way.
